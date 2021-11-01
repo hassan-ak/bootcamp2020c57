@@ -1,4 +1,4 @@
-# bootcamp2020c56 - AWS AppSync
+# bootcamp2020c57 - AWS AppSync
 
 ## AWS AppSync With DynamoDB As A Datasource
 
