@@ -204,3 +204,8 @@ Working with appSync where ddb is used as data source we can use vtl in resolver
 19. Destroy the app using `cdk destroy`
 
 ## Reading Material
+
+- [MORE ABOUT UTILS](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-util-reference.html)
+- [AWS AppSync Mapping Templates VTL](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-dynamodb.html#aws-appsync-resolver-mapping-template-reference-dynamodb-updateitem)
+- [DynamoDb as Datasource](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-appsync.DynamoDbDataSource.html)
+- [GraphQL Instructions](https://learning.postman.com/docs/sending-requests/supported-api-frameworks/graphql/)
