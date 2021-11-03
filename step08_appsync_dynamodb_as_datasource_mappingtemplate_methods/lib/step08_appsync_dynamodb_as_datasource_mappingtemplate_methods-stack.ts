@@ -47,5 +47,6 @@ export class Step08AppsyncDynamodbAsDatasourceMappingtemplateMethodsStack extend
     });
 
     // Connect ddb table as data source to appSync
+    const ddb_data_source = api.addDynamoDbDataSource("dataSource", ddbTable);
   }
 }
