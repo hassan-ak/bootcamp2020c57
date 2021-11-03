@@ -1,5 +1,10 @@
 # Step 08 - Integrate AppSync with DynamoDB as a Datasource
 
+## Class Notes
+
+Uptil this point we learned how to use Lambda function as a data-source with AppSync. AppSync comminute with lambda function and lambda function is then connected to DynamoDB. Now we are going to coonect AppSync with DynamoDB.
+AppSync will sent a request to ddb and the request contains the operation along with data associated with it. DDB will recieve the request do the operation and the response is mapped to the AppSync. Using this way we are able to avoid some extra operation, fast response and also every thing is done using cdk.
+
 ## Steps to code
 
 1. Create a new directory by using `mkdir step08_appsync_dynamodb_as_datasource_mappingtemplate_methods`
@@ -132,3 +137,5 @@
 14. Deploy the app using `cdk deploy`
 15. Test the Api using postman or AWS console
 16. Destroy the app using `cdk destroy`
+
+## Reading Material
