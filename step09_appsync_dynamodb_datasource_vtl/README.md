@@ -142,8 +142,31 @@ Working with appSync where ddb is used as data source we can use vtl in resolver
     });
     ```
 
-15. Deploy the app using `cdk deploy`
-16. Test the Api using postman or AWS console
-17. Destroy the app using `cdk destroy`
+15. Update "lib/step09_appsync_dynamodb_datasource_vtl-stack.ts" to create deleteNotes resolvers
+    ```
+    ddb_data_source.createResolver({
+      typeName: "Mutation",
+      fieldName: "deleteNote",
+      requestMappingTemplate: appsync.MappingTemplate.fromString(`
+      {
+        "version" : "2017-02-28",
+        "operation" : "DeleteItem",
+        "key" : {
+          "id" : $util.dynamodb.toDynamoDBJson($ctx.args.id)
+        }
+      }
+      `),
+      responseMappingTemplate: appsync.MappingTemplate.fromString(`
+        #if($context.error)
+          $util.error($context.error.message, $context.error.type)
+        #else
+          $utils.toJson($context.result)
+        #end
+      `),
+    });
+    ```
+16. Deploy the app using `cdk deploy`
+17. Test the Api using postman or AWS console
+18. Destroy the app using `cdk destroy`
 
 ## Reading Material
