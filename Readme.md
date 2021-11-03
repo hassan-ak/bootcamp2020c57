@@ -5,6 +5,7 @@
 ### Sections
 
 - [Integrate AppSync with DynamoDB as a Datasource](./step08_appsync_dynamodb_as_datasource_mappingtemplate_methods)
+- [Appsync Dynamodb Datasource VTL](./step09_appsync_dynamodb_datasource_vtl)
 
 ### Class Videos
 
