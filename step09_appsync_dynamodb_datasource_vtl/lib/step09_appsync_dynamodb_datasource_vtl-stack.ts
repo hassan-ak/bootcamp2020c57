@@ -93,5 +93,27 @@ export class Step09AppsyncDynamodbDatasourceVtlStack extends cdk.Stack {
         #end
       `),
     });
+
+    // Delete notes resolver
+    ddb_data_source.createResolver({
+      typeName: "Mutation",
+      fieldName: "deleteNote",
+      requestMappingTemplate: appsync.MappingTemplate.fromString(`
+      {
+        "version" : "2017-02-28",
+        "operation" : "DeleteItem",
+        "key" : {
+          "id" : $util.dynamodb.toDynamoDBJson($ctx.args.id)
+        }
+      }
+      `),
+      responseMappingTemplate: appsync.MappingTemplate.fromString(`
+        #if($context.error)
+          $util.error($context.error.message, $context.error.type)
+        #else
+          $utils.toJson($context.result)
+        #end
+      `),
+    });
   }
 }
