@@ -22,5 +22,19 @@ export class Step08AppsyncDynamodbAsDatasourceMappingtemplateMethodsStack extend
       },
       xrayEnabled: true,
     });
+
+    // URL, Key, id and region of API
+    new cdk.CfnOutput(this, "API_Url", {
+      value: api.graphqlUrl,
+    });
+    new cdk.CfnOutput(this, "API_Key", {
+      value: api.apiKey || "",
+    });
+    new cdk.CfnOutput(this, "API_Region", {
+      value: this.region,
+    });
+    new cdk.CfnOutput(this, "API_ID", {
+      value: api.apiId,
+    });
   }
 }
