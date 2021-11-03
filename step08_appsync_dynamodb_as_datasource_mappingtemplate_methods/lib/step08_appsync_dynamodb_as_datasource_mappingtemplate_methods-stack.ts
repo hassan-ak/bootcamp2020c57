@@ -36,5 +36,16 @@ export class Step08AppsyncDynamodbAsDatasourceMappingtemplateMethodsStack extend
     new cdk.CfnOutput(this, "API_ID", {
       value: api.apiId,
     });
+
+    // DynamoDB table creation
+    const ddbTable = new ddb.Table(this, "step08Table", {
+      tableName: "Step08Table",
+      partitionKey: {
+        name: "id",
+        type: ddb.AttributeType.STRING,
+      },
+    });
+
+    // Connect ddb table as data source to appSync
   }
 }
