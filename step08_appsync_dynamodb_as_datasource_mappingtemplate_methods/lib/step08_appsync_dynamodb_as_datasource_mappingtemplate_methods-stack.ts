@@ -48,5 +48,44 @@ export class Step08AppsyncDynamodbAsDatasourceMappingtemplateMethodsStack extend
 
     // Connect ddb table as data source to appSync
     const ddb_data_source = api.addDynamoDbDataSource("dataSource", ddbTable);
+
+    // Resolvers
+    // Resolver to create note
+    ddb_data_source.createResolver({
+      typeName: "Mutation",
+      fieldName: "createNote",
+      requestMappingTemplate: appsync.MappingTemplate.dynamoDbPutItem(
+        appsync.PrimaryKey.partition("id").auto(),
+        appsync.Values.projecting()
+      ),
+      responseMappingTemplate: appsync.MappingTemplate.dynamoDbResultItem(),
+    });
+
+    ddb_data_source.createResolver({
+      typeName: "Query",
+      fieldName: "notes",
+      requestMappingTemplate: appsync.MappingTemplate.dynamoDbScanTable(),
+      responseMappingTemplate: appsync.MappingTemplate.dynamoDbResultList(),
+    });
+
+    ddb_data_source.createResolver({
+      typeName: "Mutation",
+      fieldName: "deleteNote",
+      requestMappingTemplate: appsync.MappingTemplate.dynamoDbDeleteItem(
+        "id",
+        "id"
+      ),
+      responseMappingTemplate: appsync.MappingTemplate.dynamoDbResultItem(),
+    });
+
+    ddb_data_source.createResolver({
+      typeName: "Mutation",
+      fieldName: "updateNote",
+      requestMappingTemplate: appsync.MappingTemplate.dynamoDbPutItem(
+        appsync.PrimaryKey.partition("id").is("id"),
+        appsync.Values.projecting()
+      ),
+      responseMappingTemplate: appsync.MappingTemplate.dynamoDbResultItem(),
+    });
   }
 }
