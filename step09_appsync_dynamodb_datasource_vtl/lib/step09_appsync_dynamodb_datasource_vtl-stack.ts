@@ -115,5 +115,36 @@ export class Step09AppsyncDynamodbDatasourceVtlStack extends cdk.Stack {
         #end
       `),
     });
+
+    // Update Note Resolver
+    ddb_data_source.createResolver({
+      typeName: "Mutation",
+      fieldName: "updateNote",
+      requestMappingTemplate: appsync.MappingTemplate.fromString(`
+      {
+        "version" : "2018-05-29",
+        "operation" : "UpdateItem",
+        "key" : {
+          "id" : $util.dynamodb.toDynamoDBJson($ctx.args.id)
+        },
+        "update" : {
+          "expression" : "SET #title = :t",
+          "expressionNames" : {
+            "#title" : "title"
+          },
+          "expressionValues" : {
+            ":t" : $util.dynamodb.toDynamoDBJson($ctx.args.title)
+          }
+        }
+      }
+      `),
+      responseMappingTemplate: appsync.MappingTemplate.fromString(`
+        #if( $context.error)
+          $util.error($context.error.message, $context.error.type)
+        #else
+          $utils.toJson($context.result)
+        #end
+      `),
+    });
   }
 }
