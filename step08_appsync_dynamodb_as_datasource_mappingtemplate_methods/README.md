@@ -139,3 +139,7 @@ AppSync will sent a request to ddb and the request contains the operation along 
 16. Destroy the app using `cdk destroy`
 
 ## Reading Material
+
+- [AWS AppSync Mapping Templates Methods](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-appsync.MappingTemplate.html)
+- [DynamoDb as Datasource](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-appsync.DynamoDbDataSource.html)
+- [GraphQL Instructions](https://learning.postman.com/docs/sending-requests/supported-api-frameworks/graphql/)
