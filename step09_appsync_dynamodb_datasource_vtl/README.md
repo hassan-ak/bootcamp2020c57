@@ -143,6 +143,7 @@ Working with appSync where ddb is used as data source we can use vtl in resolver
     ```
 
 15. Update "lib/step09_appsync_dynamodb_datasource_vtl-stack.ts" to create deleteNotes resolvers
+
     ```
     ddb_data_source.createResolver({
       typeName: "Mutation",
@@ -165,8 +166,41 @@ Working with appSync where ddb is used as data source we can use vtl in resolver
       `),
     });
     ```
-16. Deploy the app using `cdk deploy`
-17. Test the Api using postman or AWS console
-18. Destroy the app using `cdk destroy`
+
+16. Update "lib/step09_appsync_dynamodb_datasource_vtl-stack.ts" to create updateNote resolvers
+    ```
+    ddb_data_source.createResolver({
+      typeName: "Mutation",
+      fieldName: "updateNote",
+      requestMappingTemplate: appsync.MappingTemplate.fromString(`
+      {
+        "version" : "2018-05-29",
+        "operation" : "UpdateItem",
+        "key" : {
+          "id" : $util.dynamodb.toDynamoDBJson($ctx.args.id)
+        },
+        "update" : {
+          "expression" : "SET #title = :t",
+          "expressionNames" : {
+            "#title" : "title"
+          },
+          "expressionValues" : {
+            ":t" : $util.dynamodb.toDynamoDBJson($ctx.args.title)
+          }
+        }
+      }
+      `),
+      responseMappingTemplate: appsync.MappingTemplate.fromString(`
+        #if( $context.error)
+          $util.error($context.error.message, $context.error.type)
+        #else
+          $utils.toJson($context.result)
+        #end
+      `),
+    });
+    ```
+17. Deploy the app using `cdk deploy`
+18. Test the Api using postman or AWS console
+19. Destroy the app using `cdk destroy`
 
 ## Reading Material
