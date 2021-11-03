@@ -47,5 +47,32 @@ export class Step09AppsyncDynamodbDatasourceVtlStack extends cdk.Stack {
 
     // connect ddb as data source to AppSync
     const ddb_data_source = api.addDynamoDbDataSource("dataSource", ddbTable);
+
+    // Resolvers using VTL language
+
+    // Create Notes Resolver
+    ddb_data_source.createResolver({
+      typeName: "Mutation",
+      fieldName: "createNote",
+      requestMappingTemplate: appsync.MappingTemplate.fromString(`
+        ## Automaticaly set the id if it's not passed in 
+        $util.qr($context.arguments.put("id",$util.defaultIfNull($context.arguments.id,$util.autoId())))
+        {
+          "version" : "2017-02-28",
+          "operation" : "PutItem",
+          "key": {
+            "id": $util.dynamodb.toDynamoDBJson($context.arguments.id)
+          },
+          "attributeValues" : $util.dynamodb.toMapValuesJson($context.arguments)
+        }
+      `),
+      responseMappingTemplate: appsync.MappingTemplate.fromString(`
+        #if($context.error)
+          $util.error($context.error.message, $context.error.type)
+        #else
+          $utils.toJson($context.result)
+        #end
+      `),
+    });
   }
 }
