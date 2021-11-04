@@ -20,5 +20,11 @@ export class Step10AppsyncNoDataSourceStack extends cdk.Stack {
     new cdk.CfnOutput(this, "GraphQLAPIURL", {
       value: api.graphqlUrl,
     });
+
+    // Add new data source to the api
+    const dataSource = api.addNoneDataSource("noDataSource", {
+      name: "noDataSource",
+      description: "Does not save incoming data anywhere",
+    });
   }
 }
