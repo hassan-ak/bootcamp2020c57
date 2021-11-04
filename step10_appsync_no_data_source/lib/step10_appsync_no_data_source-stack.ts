@@ -15,5 +15,10 @@ export class Step10AppsyncNoDataSourceStack extends cdk.Stack {
       },
       schema: appSync.Schema.fromAsset("graphql/schema.gql"),
     });
+
+    // Print API URl
+    new cdk.CfnOutput(this, "GraphQLAPIURL", {
+      value: api.graphqlUrl,
+    });
   }
 }
