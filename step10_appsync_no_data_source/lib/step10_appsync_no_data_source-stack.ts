@@ -26,5 +26,18 @@ export class Step10AppsyncNoDataSourceStack extends cdk.Stack {
       name: "noDataSource",
       description: "Does not save incoming data anywhere",
     });
+
+    // Resolver
+    dataSource.createResolver({
+      typeName: "Mutation",
+      fieldName: "changeStatus",
+      requestMappingTemplate: appSync.MappingTemplate.fromString(`{
+                    "version" : "2017-02-28",
+                    "payload": $util.toJson($context.arguments)
+                    }`),
+      responseMappingTemplate: appSync.MappingTemplate.fromString(
+        "$util.toJson($context.result)"
+      ),
+    });
   }
 }
